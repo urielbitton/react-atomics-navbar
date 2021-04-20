@@ -5,6 +5,7 @@ import "./styles.css"
 export default function Navbar(props) {
 
   const {
+    navPosition,
     navWidth='100%', 
     navHeight=100, 
     navBg='transparent', 
@@ -13,7 +14,8 @@ export default function Navbar(props) {
     reverse=false,
     zIndex=900,
     navPadding=20,
-    logo,
+    customLogo,
+    logoImg,
     logoWidth,
     logoBorderRadius,
     navBoxShadow,
@@ -21,12 +23,21 @@ export default function Navbar(props) {
     logoTextColor,
     logoTextSize,
     logoTextWeight=500,
-    menuLinks=[]
+    menuLinks=[],
+    menuLinksColor="#000",
+    menuLinksSize=14,
+    menuLinksMargin="auto 15px",
+    menuLinksPadding,
+    subMenuLinksColor="#000",
+    subMenuLinksSize=12,
+    subMenuLinksPadding="15px 20px",
+    subMenuLinksBg="#fff"
   } = props
 
   const [mobWidth, setMobWidth] = useState(navWidth)
 
   const navStyles = {
+    position: navPosition,
     width: mobWidth,
     height: navHeight,
     background: navBg,
@@ -44,14 +55,40 @@ export default function Navbar(props) {
     color: logoTextColor,
     fontWeight: logoTextWeight
   }
-
+  const menuLinksStyles = {
+    color: menuLinksColor,
+    fontSize: menuLinksSize,
+    margin: menuLinksMargin,
+    padding: menuLinksPadding,
+  }
+  const subMenuLinksStyles = {
+    color: subMenuLinksColor,
+    fontSize: subMenuLinksSize,
+    padding: subMenuLinksPadding,
+    background: subMenuLinksBg
+  }
+ 
   const menulinksrow = menuLinks?.map(({name,url,homepage,sublinks}) => {
     return <NavLink 
       to={url}
       exact={`${homepage}`}
       activeClassName="ran-activemenulink"
+      style={menuLinksStyles}
     >
     {name}
+    <div className="ran-dropdown">
+      {
+        sublinks?.map(({name,url}) => {
+          return <NavLink 
+            to={url} 
+            activeClassName="ran-subactivemenulinks" 
+            style={subMenuLinksStyles}
+          >
+            {name}
+          </NavLink>
+        })
+      }
+    </div>
     </NavLink>
   })
 
@@ -72,8 +109,14 @@ export default function Navbar(props) {
       style={navStyles}
     >
       <div className="ran-logocont">
-        <img src={logo} alt="" style={logoStyles} />
+        {
+          !customLogo?
+          <img src={logoImg} alt="" style={logoStyles} />:
+          customLogo
+        }
         <span style={logoTextStyles}>{logoText}</span>
+      </div>
+      <div className="ran-middle"> 
       </div>
       <div className="ran-menu">
         {menulinksrow}

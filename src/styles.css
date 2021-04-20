@@ -19,9 +19,36 @@ html,body {
   flex-direction: row-reverse;
 }
 .ran-logocont {
+  position: relative;
   display: flex;
   align-items: center;
 }
 .ran-logocont img {
   margin-right: 20px;
+}
+.ran-menu {
+  position: relative;
+}
+.ran-menu a {
+  position: relative;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.ran-menu a:hover {
+  filter: brightness(115%)
+}
+.ran-dropdown {
+  position: absolute;
+  top: 40px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.3s;
+}
+.ran-menu > a:hover .ran-dropdown {
+  visibility: visible;
+  opacity: 1;
 }
