@@ -1,4 +1,27 @@
-.App {
-  font-family: sans-serif;
-  text-align: center;
+html,body {
+  margin: 0;
+  font-family: Montserrat;
+}
+.ran-navbar {
+  margin: 0;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  margin: auto;
+}
+.ran-navbar.vertical {
+  flex-direction: column;
+}
+.ran-navbar.vertical.reverse {
+  flex-direction: column-reverse;
+}
+.ran-navbar.reverse {
+  flex-direction: row-reverse;
+}
+.ran-logocont {
+  display: flex;
+  align-items: center;
+}
+.ran-logocont img {
+  margin-right: 20px;
 }
