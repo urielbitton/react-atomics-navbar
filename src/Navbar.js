@@ -1,79 +1,27 @@
 import React, { useEffect, useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import "./styles.css"
 
 export default function Navbar(props) {
 
-  const {
-    navPosition,
-    navWidth='100%', 
-    navHeight=100, 
-    navBg='transparent', 
-    orientation='space-between',
+  const {  
     vertical=false,
     reverse=false,
-    zIndex=900,
-    navPadding=20,
     customLogo,
     logoImg,
-    logoWidth,
-    logoBorderRadius,
-    navBoxShadow,
     logoText,
-    logoTextColor,
-    logoTextSize,
-    logoTextWeight=500,
     menuLinks=[],
-    menuLinksColor="#000",
-    menuLinksSize=14,
-    menuLinksMargin="auto 15px",
-    menuLinksPadding,
-    subMenuLinksColor="#000",
-    subMenuLinksSize=12,
-    subMenuLinksPadding="15px 20px",
-    subMenuLinksBg="#fff"
+    navButtons=[],
+    scrollPoint=100
   } = props
 
-  const [mobWidth, setMobWidth] = useState(navWidth)
-
-  const navStyles = {
-    position: navPosition,
-    width: mobWidth,
-    height: navHeight,
-    background: navBg,
-    justifyContent: orientation,
-    padding: navPadding,
-    zIndex,
-    boxShadow: navBoxShadow
-  }
-  const logoStyles = {
-    width: logoWidth,
-    borderRadius: logoBorderRadius
-  }
-  const logoTextStyles = {
-    fontSize: logoTextSize,
-    color: logoTextColor,
-    fontWeight: logoTextWeight
-  }
-  const menuLinksStyles = {
-    color: menuLinksColor,
-    fontSize: menuLinksSize,
-    margin: menuLinksMargin,
-    padding: menuLinksPadding,
-  }
-  const subMenuLinksStyles = {
-    color: subMenuLinksColor,
-    fontSize: subMenuLinksSize,
-    padding: subMenuLinksPadding,
-    background: subMenuLinksBg
-  }
+  const [scrolled, setScrolled] = useState(false)
  
   const menulinksrow = menuLinks?.map(({name,url,homepage,sublinks}) => {
     return <NavLink 
       to={url}
       exact={`${homepage}`}
       activeClassName="ran-activemenulink"
-      style={menuLinksStyles}
     >
     {name}
     <div className="ran-dropdown">
@@ -82,7 +30,6 @@ export default function Navbar(props) {
           return <NavLink 
             to={url} 
             activeClassName="ran-subactivemenulinks" 
-            style={subMenuLinksStyles}
           >
             {name}
           </NavLink>
@@ -91,35 +38,48 @@ export default function Navbar(props) {
     </div>
     </NavLink>
   })
+  const navbtnsrow = navButtons?.map(({name,url,bg,color,icon,className})  => {
+    return <Link to={url} className={className}>
+      <button style={{color, background:bg}}>{name}<i className={icon}></i></button>
+    </Link>
+  })
 
   useEffect(() => {
-    window.onresize = () => {
-      if(window.innerWidth <= navWidth) {
-        setMobWidth('100%')
+    let prevScrollpos = window.pageYOffset
+    window.onscroll = () => {
+      let currentScrollPos = window.pageYOffset
+      if(window.pageYOffset > scrollPoint) {
+        if (prevScrollpos < currentScrollPos) {
+          setScrolled(true)
+        }  
       }
       else {
-        setMobWidth(navWidth)
+        setScrolled(false)
       }
+      prevScrollpos = currentScrollPos
     }
-  },[window.innerWidth])
+    return() => {
+      window.onscroll = null
+    }
+  },[scrolled])
 
   return (
-    <div 
-      className={`ran-navbar ${vertical&&'vertical'} ${reverse&&'reverse'}`}
-      style={navStyles}
-    >
+    <div className={`ran-navbar ${vertical&&'vertical'} ${reverse&&'reverse'} ${scrolled&&'scrolled'}`}>
       <div className="ran-logocont">
         {
           !customLogo?
-          <img src={logoImg} alt="" style={logoStyles} />:
+          <img src={logoImg} alt="" />:
           customLogo
         }
-        <span style={logoTextStyles}>{logoText}</span>
+        <span>{logoText}</span>
       </div>
       <div className="ran-middle"> 
       </div>
       <div className="ran-menu">
         {menulinksrow}
+        <div className="btncont">
+          {navbtnsrow}
+        </div>
       </div>
     </div>
   ) 

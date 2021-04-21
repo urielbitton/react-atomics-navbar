@@ -48,24 +48,21 @@ export default function App() {
       ]
     }
   ]
+  const navbtns = [
+    {name:'Register', url:'/register',bg:'#3366ff'},
+    {name:'Login', url:'/login',bg:'#3366ff'},
+  ]
 
   return (
     <Router>
       <Navbar 
-        navWidth={1200}
-        navPosition="relative"
         logoImg="https://i.imgur.com/5ZuVzKu.png"
         customLogo={false}
         logoText="Uriel Bitton"
-        logoTextSize={18}
-        logoTextWeight={500}
-        logoTextColor="#28344a"
-        logoWidth={40}
-        logoBorderRadius={10}
         menuLinks={menuLinks}
-        menuLinksMargin="auto 25px"
-        menuLinksPadding="5px 0"
+        navButtons={navbtns}
       />
+      <div style={{height:2000}}></div>
     </Router>
   )
 }

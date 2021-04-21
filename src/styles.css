@@ -3,11 +3,17 @@ html,body {
   font-family: Montserrat;
 }
 .ran-navbar {
-  margin: 0;
   box-sizing: border-box;
   display: flex;
+  justify-content: space-between;
   align-items: center;
   margin: auto;
+  left: 0;
+  right: 0;
+  transition: all 0.3s;
+}
+.ran-navbar.scrolled {
+  background: red;
 }
 .ran-navbar.vertical {
   flex-direction: column;
@@ -28,15 +34,15 @@ html,body {
 }
 .ran-menu {
   position: relative;
+  display: flex;
+  align-items: center;
 }
 .ran-menu a {
   position: relative;
   text-decoration: none;
   cursor: pointer;
   transition: all 0.2s;
-}
-.ran-menu a:hover {
-  filter: brightness(115%)
+  color: inherit;
 }
 .ran-dropdown {
   position: absolute;
@@ -48,7 +54,18 @@ html,body {
   opacity: 0;
   transition: all 0.3s;
 }
+.ran-dropdown a {
+  min-width: 100px;
+  transition: all 0.2s;
+}
 .ran-menu > a:hover .ran-dropdown {
   visibility: visible;
   opacity: 1;
+}
+.ran-menu .btncont {
+  display: flex;
+  align-items: center;
+}
+.ran-menu .btncont a {
+  margin-left: 10px;
 }
